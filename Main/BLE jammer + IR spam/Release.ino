@@ -19,9 +19,10 @@
 //         |5 & 18
 //         |6 & 23
 //         |7 & 19
-// |RF pin: <line 28-31>
-// |IR pin: <line 32>
-//  --Use: press BOOT (IO0) to run infrared light.
+// |RF pin: <line 29-32>
+// |IR pin: <line 34>
+// |ChangeM pin: <line 33>
+//  --Use: press IO33 (GND) to change mod.
 
 // ==== Configuration ==== //
 
@@ -29,9 +30,9 @@
 #define RF1_4 15
 #define RF2_3 22
 #define RF2_4 21
-#define IR_PIN 5
-#define BOOT_PIN 0
-#define LED_PIN 2
+#define Cg_pin 33
+#define IR_send 5
+#define Led_pin 2
 #include "RF24.h"
 #include <SPI.h>
 #include <IRremote.h>
@@ -71,12 +72,12 @@ void initSP() {
     radio1.setPALevel(RF24_PA_MAX, true);
     radio1.setDataRate(RF24_2MBPS);
     radio1.setCRCLength(RF24_CRC_DISABLED);
-    radio1.printPrettyDetails();
     radio1.startConstCarrier(RF24_PA_MAX, ch1);
-  digitalWrite(LED_PIN, HIGH);
-  delay(150);
-  digitalWrite(LED_PIN, LOW);}
-  else {Serial.println("N1 couldn't start !!!");}}
+  digitalWrite(Led_pin, HIGH);
+  delay(100);
+  digitalWrite(Led_pin, LOW);
+  delay(100);}
+  else {Serial.println("N1 not run !!!");}}
 void initHP() {
   hp = new SPIClass(HSPI);
   hp->begin();
@@ -87,10 +88,9 @@ void initHP() {
     radio.setPALevel(RF24_PA_MAX, true);
     radio.setDataRate(RF24_2MBPS);
     radio.setCRCLength(RF24_CRC_DISABLED);
-    radio.printPrettyDetails();
     radio.startConstCarrier(RF24_PA_MAX, ch);
-  digitalWrite(LED_PIN, HIGH);}
-  else {Serial.println("N2 couldn't start !!!");}}
+  digitalWrite(Led_pin, HIGH);}
+  else {Serial.println("N2 not run !!!");}}
 
 // ==== IR ==== //
 
@@ -130,83 +130,86 @@ void send_panasonic_ir_code(uint32_t x, uint32_t y) {
 void send_philips_ir_code(uint32_t addr, uint32_t cmd) {
     IrSender.sendRC6(addr, cmd, 20);
     delay(irdl);}
-void run_ir() {
-Serial.println("Started in IR mode");
-  digitalWrite(IR_PIN, OUTPUT);
-  IrSender.begin(IR_PIN);
-  digitalWrite(LED_PIN, LOW);
+void ir_send() {
+  digitalWrite(IR_send, OUTPUT);
+  IrSender.begin(IR_send);
+  digitalWrite(Led_pin, HIGH);
   send_sony_ir_code(0xA90, 12);
   send_nec_ir_code(0x20DF10EF);
   send_rc5_ir_code(0x80C);
+  digitalWrite(Led_pin, LOW);
   send_rc5_ir_code(0xC);
-  digitalWrite(LED_PIN, HIGH);
   send_rc5_ir_code(0x84C);
   send_rc5_ir_code(0x4C);
   send_rc5_ir_code(0x44C);
+  digitalWrite(Led_pin, HIGH);
   send_nec_ir_code(0x2FD48B7);
-  digitalWrite(LED_PIN, LOW);
   send_samsung_ir_code(0xE0E040BF);
   send_samsung_ir_code(0xE0E019E6);
   send_samsung_ir_code(0x909040BF);
+  digitalWrite(Led_pin, LOW);
   send_samsung_ir_code(0x07, 0x02);
-  digitalWrite(LED_PIN, HIGH);
   send_rc5_ir_code(0x0F, 0x2A, 12);
+  digitalWrite(Led_pin, HIGH);
   send_jvc_ir_code(3, 23);
   send_samsung_ir_code(0x909C837);
   send_nec_ir_code(0x8E7152AD);
-  digitalWrite(LED_PIN, LOW);
+  digitalWrite(Led_pin, LOW);
   send_rc6_ir_code(0xC, 20);
   send_sony_ir_code(0xF50, 12);
+  digitalWrite(Led_pin, HIGH);
   send_nec_ir_code(0x4, 0x0B);
   send_nec_ir_code(0x40000000, 0x0B000000);
-  digitalWrite(LED_PIN, HIGH);
+  digitalWrite(Led_pin, LOW);
   send_jvc_ir_code(0xF8EB, 16);
   send_rc6_ir_code(0x1000C, 20);
+  digitalWrite(Led_pin, HIGH);
   send_rc5_ir_code(0x301);
   send_rc5_ir_code(0xB01);
-  digitalWrite(LED_PIN, LOW);
   send_rc5_ir_code(0x9CC);
   send_nec_ir_code(0x55AA38C7);
+  digitalWrite(Led_pin, LOW);
   send_nec_ir_code(0x00BF, 0x0DF2);
   send_nec_ir_code(0x18E710EF);
-  digitalWrite(LED_PIN, HIGH);
   send_nec_ir_code(0x20DFBE41);
+  digitalWrite(Led_pin, HIGH);
   send_panasonic_ir_code(0x800220, 0xD003);
   send_panasonic_ir_code(0x80022000, 0xD0030000);
+  digitalWrite(Led_pin, LOW);
   send_jvc_ir_code(0xC0E8, 16);
-  digitalWrite(LED_PIN, LOW);
   send_samsung_ir_code(0x6060F00F);
   send_nec_ir_code(0x86C6807F);
+  digitalWrite(Led_pin, HIGH);
   send_samsung_ir_code(0x1010D02F);
   send_nec_ir_code(0x6F900FF);
-  digitalWrite(LED_PIN, HIGH);
   send_nec_ir_code(0x1FE41BE);
   send_nec_ir_code(0x7B6B4FB0);
+  digitalWrite(Led_pin, LOW);
   send_nec_ir_code(0x986718E7);
-  digitalWrite(LED_PIN, LOW);
   send_nec_ir_code(0x4B36E21D);
   send_nec_ir_code(0x4B36D32C);
   send_nec_ir_code(0x189710EF);
+  digitalWrite(Led_pin, HIGH);
   send_nec_ir_code(0x1897639C);
-  digitalWrite(LED_PIN, HIGH);
   send_nec_ir_code(0xAB500FF);
   send_nec_ir_code(0x1FE48B7);
   send_nec_ir_code(0x3E060FC0);
+  digitalWrite(Led_pin, LOW);
   send_rc5_ir_code(0xC3D);
-  digitalWrite(LED_PIN, LOW);
   send_nec_ir_code(0xFB38C7);
   send_nec_ir_code(0x1CE348B7);
   send_nec_ir_code(0x1CE338C7);
+  digitalWrite(Led_pin, HIGH);
   send_nec_ir_code(0x10EFEB14);
-  digitalWrite(LED_PIN, HIGH);
   send_nec_ir_code(0xAF5FC03);
   send_nec_ir_code(0xBD807F);
   send_nec_ir_code(0xC18F50AF);
+  digitalWrite(Led_pin, LOW);
   send_nec_ir_code(0x8C73817E);
-  digitalWrite(LED_PIN, LOW);
   send_nec_ir_code(0x38C7AC0A);
   send_nec_ir_code(0xDE010FC0);
   send_nec_ir_code(0xFD00FF);
+  digitalWrite(Led_pin, HIGH);
   for (int i = 0; i < 2; ++i) {
     send_panasonic_ir_code(0x4004, 0x100BCBD);
     delay(40);}
@@ -221,27 +224,27 @@ Serial.println("Started in IR mode");
     send_nec_ir_code(0x0030, 0x4EB1);
     send_nec_ir_code(0xe8174587);
     delay(100);
-  digitalWrite(LED_PIN, HIGH);}}
+    digitalWrite(Led_pin, LOW);}}
 
 // ==== Setup ====//
 
 void setup() {
   Serial.begin(115200);
-  pinMode(BOOT_PIN, INPUT_PULLUP);
-  pinMode(LED_PIN, OUTPUT);
+  pinMode(Cg_pin, INPUT_PULLUP);
+  pinMode(Led_pin, OUTPUT);
   initSP();
   initHP();
   is_nrf_mode = true;
-  Serial.println("Started in NRF mode");}
+  Serial.println("Run in Wljm mode");}
 void loop() {
-  if (digitalRead(BOOT_PIN) == LOW) {
-  if (digitalRead(BOOT_PIN) == LOW) {
+  if (digitalRead(Cg_pin) == LOW) {
+  if (digitalRead(Cg_pin) == LOW) {
       is_nrf_mode = !is_nrf_mode;
       if (is_nrf_mode) {
         initHP();
-        initSP();}
-      else {
-      if (sp) {
+        initSP();
+        digitalWrite(Led_pin, HIGH);}
+      else {if (sp) {
           radio1.powerDown();
           delete sp;
           sp = nullptr;}
@@ -249,7 +252,9 @@ void loop() {
           radio.powerDown();
           delete hp;
           hp = nullptr;}}
-      while (digitalRead(BOOT_PIN) == LOW) {
+      while (digitalRead(Cg_pin) == LOW) {
           delay(10);}}}
   if (is_nrf_mode) {one();}
-  else {run_ir();}}
+  else {
+     ir_send();
+     Serial.println("Run in IR_send mode");}}
