@@ -32,12 +32,12 @@
 
 #include "RF24.h"
 #include <SPI.h>
-SPIClass vspi(VSPI);
+SPIClass hspi(HSPI);
 RF24 radio1(16, 15, 16000000);
 RF24 radio2(22, 21, 16000000);
 RF24 radio3(26, 25 ,16000000);
 void SAtk() {
-  if (radio1.begin(&vspi)) {
+  if (radio1.begin(&hspi)) {
     radio1.setAutoAck(false);
     radio1.stopListening();
     radio1.setRetries(0, 0);
@@ -46,7 +46,7 @@ void SAtk() {
     radio1.setCRCLength(RF24_CRC_DISABLED);
     radio1.startConstCarrier(RF24_PA_MAX, 45);}
     else {Serial.println("N1 couldn't start !!!");}
-  if (radio2.begin(&vspi)) {
+  if (radio2.begin(&hspi)) {
     radio2.setAutoAck(false);
     radio2.stopListening();
     radio2.setRetries(0, 0);
@@ -55,7 +55,7 @@ void SAtk() {
     radio2.setCRCLength(RF24_CRC_DISABLED);
     radio2.startConstCarrier(RF24_PA_MAX, 45);}
     else {Serial.println("N2 couldn't start !!!");}
-  if (radio3.begin(&vspi)) {
+  if (radio3.begin(&hspi)) {
     radio3.setAutoAck(false);
     radio3.stopListening();
     radio3.setRetries(0, 0);
