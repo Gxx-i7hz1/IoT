@@ -1,13 +1,10 @@
-// Tiktok: ex.fd.cn
-// Only 2.4ghz
-
 //  --Library:
 //    |Select board
 //    |RF24.h
 //  --Setup (Nrf|Esp) (1 & Gnd // 2 & 3.3v):
 //    |pin 5;6;7 connect to (Esp):
-//       |14;13;12
 //       |18;23;19
+//       |14;13;12 (Note at line 21)
 //    |RF_1:
 //       |3 & 16
 //       |4 & 15
@@ -20,6 +17,13 @@
 
 // Mode: |81:Bluetooth|15:Wifi|126:Drone|
 #define Mode 81
+
+// Note: if you want to use 14;13;12 then declare the code below:
+/*
+#define MY_VSPI_SCK   14
+#define MY_VSPI_MISO  12
+#define MY_VSPI_MOSI  13
+*/
 
 #include "RF24.h"
 #include <SPI.h>
