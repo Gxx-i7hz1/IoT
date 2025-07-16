@@ -5,7 +5,7 @@
 //    |Select board
 //    |RF24.h
 //  --Setup (Nrf|ATmega328) (1 & Gnd // 2 & 3.3v):
-//    |5;6;7 connect to |15/D11|16/D12|17/D13|
+//    |5;6;7 connect to D13;D11;D12
 //    |RF_1:
 //       |3 & 28 // A5
 //       |4 & 27 // A4
