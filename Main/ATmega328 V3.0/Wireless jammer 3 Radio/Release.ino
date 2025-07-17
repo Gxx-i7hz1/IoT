@@ -1,6 +1,3 @@
-// Tiktok: ex.fd.cn
-// Only 2.4ghz
-
 //  --Library:
 //    |Select board
 //    |RF24.h
