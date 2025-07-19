@@ -13,7 +13,7 @@
 #define RF2_4 21
 #define RF3_3 26
 #define RF3_4 25
-//Mode: |15:Wifi|81:Bluetooth|126:Drone|
+//Mode: |15:Wifi|81:Bluetooth|125:Drone|
 #define RF1 81
 #define RF2 81
 #define RF3 81
@@ -39,7 +39,7 @@ void radioSetup() {
   vspi = new SPIClass(VSPI);
   hspi = new SPIClass(HSPI);
   vspi->begin();
-  hspi->begin();
+  hspi->begin(14, 12, 13, -1);
   if (radio1.begin(vspi)) {
     radio1.setAutoAck(false);
     radio1.stopListening();

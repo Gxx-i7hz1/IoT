@@ -15,7 +15,7 @@
 //       |3 & A1
 //       |4 & A0
 
-// Mode: |81:Bluetooth|15:Wifi|126:Drone|
+// Mode: |81:Bluetooth|15:Wifi|125:Drone|
 #define Mode1 81
 #define Mode2 81
 #define Mode3 81
