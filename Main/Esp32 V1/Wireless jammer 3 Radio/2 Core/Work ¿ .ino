@@ -13,7 +13,7 @@
 #define RF2_4 21
 #define RF3_3 26
 #define RF3_4 25
-//Mode: |15:Wifi|81:Bluetooth|125:Drone|
+//Mode: |15:Wifi|81:Bluetooth|126:Drone|
 #define RF1 81
 #define RF2 81
 #define RF3 81
@@ -21,8 +21,8 @@
 #define Led_pin 2
 #include "RF24.h"
 #include <SPI.h>
-SPIClass *vspi = nullptr;
-SPIClass *hspi = nullptr;
+SPIClass vspi(VSPI);
+SPIClass hspi(HSPI);
 RF24 radio1(RF1_3, RF1_4, 16000000);
 RF24 radio2(RF2_3, RF2_4, 16000000);
 RF24 radio3(RF3_3, RF3_4 ,16000000);
@@ -35,12 +35,12 @@ void core2(void *pvParameters) {
   for (;;) {
     radio2.setChannel(random(RF2));
     vTaskDelay(1);}}
-void radioSetup() {
-  vspi = new SPIClass(VSPI);
-  hspi = new SPIClass(HSPI);
-  vspi->begin();
-  hspi->begin(14, 12, 13, -1);
-  if (radio1.begin(vspi)) {
+void setup() {
+  pinMode(Led_pin, OUTPUT);
+  randomSeed(analogRead(A0));
+  vspi.begin(18, 19, 23, -1);
+  hspi.begin(14, 12, 13, -1);
+  if (radio1.begin(&vspi)) {
     radio1.setAutoAck(false);
     radio1.stopListening();
     radio1.setRetries(0, 0);
@@ -51,7 +51,7 @@ void radioSetup() {
     delay(100);
     digitalWrite(Led_pin, LOW);
     delay(100);}
-  if (radio2.begin(hspi)) {
+  if (radio2.begin(&hspi)) {
     radio2.setAutoAck(false);
     radio2.stopListening();
     radio2.setRetries(0, 0);
@@ -62,17 +62,14 @@ void radioSetup() {
     delay(100);
     digitalWrite(Led_pin, LOW);
     delay(100);}
-  if (radio3.begin(vspi)) {
+  if (radio3.begin(&vspi)) {
     radio3.setAutoAck(false);
     radio3.stopListening();
     radio3.setRetries(0, 0);
     radio3.setDataRate(RF24_2MBPS);
     radio3.setCRCLength(RF24_CRC_DISABLED);
     radio3.startConstCarrier(RF24_PA_MAX, 0);
-    digitalWrite(Led_pin, HIGH);}}
-void setup() {
-  pinMode(Led_pin, OUTPUT);
-  radioSetup();
+    digitalWrite(Led_pin, HIGH);}
   xTaskCreatePinnedToCore(core1,"T1",2048,NULL,1,NULL,0);
   xTaskCreatePinnedToCore(core2,"T2",2048,NULL,1,NULL,1);}
 void loop() {}
