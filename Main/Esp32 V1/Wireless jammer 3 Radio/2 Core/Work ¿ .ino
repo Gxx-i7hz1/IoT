@@ -3,7 +3,7 @@
 //    |RF24.h
 //  --Setup (Nrf|Esp) (1 & Gnd // 2 & 3.3v):
 //    |5;6;7 connect to:
-//       |18;23;19 |vspi|1;3|
+//       |18;19;23 |vspi|1;3|
 //       |14;13;12 |hspi|2|
 
 //Pin Radio
@@ -38,7 +38,7 @@ void core2(void *pvParameters) {
 void setup() {
   pinMode(Led_pin, OUTPUT);
   randomSeed(analogRead(A0));
-  vspi.begin(18, 19, 23, -1);
+  vspi.begin(18, 23, 19, -1);
   hspi.begin(14, 12, 13, -1);
   if (radio1.begin(&vspi)) {
     radio1.setAutoAck(false);
