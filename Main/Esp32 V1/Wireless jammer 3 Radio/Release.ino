@@ -5,17 +5,15 @@
 //    |pin 5;6;7 connect to (Esp):
 //       |18;23;19
 //       |14;13;12 (Note at line 26)
-//    |RF_1:
-//       |3 & A5
-//       |4 & A4
-//    |RF_2:
-//       |3 & A3
-//       |4 & A2
-//    |RF_3:
-//       |3 & A1
-//       |4 & A0
 
-// Mode: |81:Bluetooth|15:Wifi|125:Drone|
+//Pin Radio
+#define RF1_3 16
+#define RF1_4 15
+#define RF2_3 22
+#define RF2_4 21
+#define RF3_3 26
+#define RF3_4 25
+//Mode: |15:Wifi|81:Bluetooth|126:Drone|
 #define Mode1 81
 #define Mode2 81
 #define Mode3 81
@@ -30,9 +28,9 @@
 #include "RF24.h"
 #include <SPI.h>
 SPIClass vspi(VSPI);
-RF24 radio1(16, 15, 16000000);
-RF24 radio2(22, 21, 16000000);
-RF24 radio3(26, 25 ,16000000);
+RF24 radio1(RF1_3, RF1_4, 16000000);
+RF24 radio2(RF2_3, RF2_4, 16000000);
+RF24 radio3(RF3_3, RF3_4 ,16000000);
 void SAtk() {
   if (radio1.begin(&vspi)) {
     radio1.setAutoAck(false);
