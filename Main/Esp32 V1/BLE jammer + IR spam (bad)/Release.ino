@@ -1,10 +1,10 @@
+// Ble code: @smoochie
+// IR code: who ?
+
 //  --Library:
 //    |Select board
 //    |RF24.h
 //    |IRremote.h
-//  --Connect:
-//    |TX0 & RX0 // RX0 & TX0
-//    |Hold the Boot button, click EN to enter Download mode.
 //  --Setup:
 //    |Nrf|Esp (1 & Gnd // 2 & 3.3v):
 //      |RF_1:
