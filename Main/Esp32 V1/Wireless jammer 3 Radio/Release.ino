@@ -61,7 +61,7 @@ void SAtk() {
     else {Serial.println("N3 couldn't start !!!");}}
 void setup() {
   Serial.begin(115200);
-  Serial.println("By Cio1N, Tiktok: ex.fd.cn");
+  Serial.println("By Cio1N, Tiktok: ex.urcionn");
   SAtk();}
 void loop() {
   radio1.setChannel(random(Mode1));

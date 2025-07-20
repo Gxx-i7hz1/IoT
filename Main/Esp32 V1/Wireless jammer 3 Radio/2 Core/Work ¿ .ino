@@ -37,7 +37,7 @@ void core2(void *pvParameters) {
     vTaskDelay(1);}}
 void setup() {
   pinMode(Led_pin, OUTPUT);
-  randomSeed(analogRead(A0));
+  randomSeed(analogRead(36));
   vspi.begin(18, 19, 23, -1);
   hspi.begin(14, 12, 13, -1);
   if (radio1.begin(&vspi)) {
