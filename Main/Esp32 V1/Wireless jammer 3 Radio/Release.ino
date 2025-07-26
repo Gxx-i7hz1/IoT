@@ -13,10 +13,10 @@
 #define RF2_4 21
 #define RF3_3 26
 #define RF3_4 25
-//Mode: |15:Wifi|81:Bluetooth|126:Drone|
-#define Mode1 81
-#define Mode2 81
-#define Mode3 81
+//Nrf channel:
+#define Mode1 126
+#define Mode2 126
+#define Mode3 126
 
 // Note: if you want to use 14;13;12 then declare the code below:
 /*
